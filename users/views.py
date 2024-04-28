@@ -2,6 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from ads.permissions import IsOwner
 from users.models import User
 from users.serializers import UserSerializer, UserRegisterSerializer
 
@@ -28,14 +29,14 @@ class UserRegister(generics.CreateAPIView):
 class UserRetrieve(generics.RetrieveAPIView):
     """Класс для просмотра пользователя"""
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class UserUpdate(generics.UpdateAPIView):
     """Класс для обновления пользователя"""
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class UserList(generics.ListAPIView):
